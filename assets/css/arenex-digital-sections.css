@@ -5514,11 +5514,18 @@ body.cmp-sh-noscroll { overflow: hidden !important; }
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--cmp-marker-size, 36px) minmax(0, 1fr);
-    align-items: center;
+    /* Align to the top: the marker then sits at a known offset (marker-size / 2)
+       from the item top, regardless of the per-item bottom padding (Item Gap).
+       This keeps the connecting line locked to the marker centres. */
+    align-items: start;
     column-gap: 28px;
     padding: 0 0 32px;
 }
-/* centered connecting line, trimmed so it starts at the first dot and ends at the last */
+/* The marker + its card share the same top, so they line up across the row. */
+.cmp-timeline--alt .cmp-timeline__content { align-self: start; }
+/* Connecting line down the centre, trimmed to start at the first dot and end at the last.
+   Because markers are top-aligned, the trim points are marker-size/2 (a known value),
+   not a percentage that drifts with the item's padding. */
 .cmp-timeline--alt .cmp-timeline__item::before {
     content: "";
     position: absolute;
@@ -5531,8 +5538,8 @@ body.cmp-sh-noscroll { overflow: hidden !important; }
     border-left: 2px solid #E0E0E0;
     z-index: 0;
 }
-.cmp-timeline--alt .cmp-timeline__item:first-child::before { top: 50%; }
-.cmp-timeline--alt .cmp-timeline__item:last-child::before  { bottom: 50%; }
+.cmp-timeline--alt .cmp-timeline__item:first-child::before { top: calc(var(--cmp-marker-size, 36px) / 2); }
+.cmp-timeline--alt .cmp-timeline__item:last-child::before  { bottom: auto; height: calc(var(--cmp-marker-size, 36px) / 2); }
 
 .cmp-timeline--alt .cmp-timeline__marker {
     position: static;
@@ -7318,4 +7325,253 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
 @media (max-width: 767px) {
   body[class] .elementor-element[data-id] .cmp-bento-grid-layout.cmp-bento-grid-layout { grid-template-columns: 1fr !important; gap: 16px !important; }
   body[class] .elementor-element[data-id] .cmp-bento-grid-layout.cmp-bento-grid-layout > .cmp-bento-card.cmp-bento-card { grid-column: 1 / -1 !important; grid-row: auto !important; }
+}
+
+
+/* ============================================================
+   RESTORED — Process Showcase + Vertical Image Gallery styles
+   These were dropped when v5.0.0 was rebuilt from the v4.4.9 base.
+   Recovered from v4.2.9 (class names verified against current markup).
+   ============================================================ */
+/* ============================================================
+   ADW — Vertical Image Gallery
+   ============================================================ */
+:where(.cmp-vig-section) {
+    position: relative;
+    width: 100%;
+}
+:where(.cmp-vig-inner) {
+    width: 100%;
+    margin-inline: auto;
+}
+:where(.cmp-vig-columns) {
+    display: grid;
+    overflow: hidden;
+    min-height: 260px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+:where(.cmp-vig-column) {
+    min-width: 0;
+    overflow: hidden;
+}
+:where(.cmp-vig-track) {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+}
+:where(.cmp-vig-section.is-autoplay .cmp-vig-column[data-direction="up"] .cmp-vig-track) {
+    animation: cmp-vig-scroll-up var(--cmp-vig-speed, 34s) linear infinite;
+}
+:where(.cmp-vig-section.is-autoplay .cmp-vig-column[data-direction="down"] .cmp-vig-track) {
+    animation: cmp-vig-scroll-down var(--cmp-vig-speed, 34s) linear infinite;
+}
+:where(.cmp-vig-section.is-paused .cmp-vig-track) {
+    animation-play-state: paused;
+}
+:where(.cmp-vig-item) {
+    margin: 0;
+    min-width: 0;
+}
+.cmp-vig-item img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    object-fit: cover;
+}
+@keyframes cmp-vig-scroll-up {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+}
+@keyframes cmp-vig-scroll-down {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    :where(.cmp-vig-section.is-autoplay .cmp-vig-track) {
+        animation: none;
+        transform: none;
+    }
+}
+@media (max-width: 767px) {
+    :where(.cmp-vig-columns) {
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0, #000 8%, #000 92%, transparent 100%);
+    }
+}
+
+/* ============================================================
+   ADW — Process Showcase
+   ============================================================ */
+:where(.cmp-pshow-section) {
+    position: relative;
+    width: 100%;
+}
+:where(.cmp-pshow-inner) {
+    width: 100%;
+    margin-inline: auto;
+}
+:where(.cmp-pshow-grid) {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+    align-items: center;
+}
+:where(.cmp-pshow-list) {
+    display: flex;
+    flex-direction: column;
+}
+:where(.cmp-pshow-step) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 18px;
+    width: 100%;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    transition: background 220ms ease, transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+:where(.cmp-pshow-step:hover),
+:where(.cmp-pshow-step:focus-visible) {
+    transform: translateY(-1px);
+}
+:where(.cmp-pshow-step:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+:where(.cmp-pshow-step.is-active) {
+    cursor: default;
+}
+:where(.cmp-pshow-icon) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border-radius: 999px;
+    transition: color 220ms ease, background 220ms ease, transform 220ms ease;
+}
+:where(.cmp-pshow-step.is-active .cmp-pshow-icon) {
+    transform: scale(1.05);
+}
+:where(.cmp-pshow-copy) {
+    display: block;
+    min-width: 0;
+}
+:where(.cmp-pshow-label) {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+:where(.cmp-pshow-title) {
+    display: block;
+    margin: 0;
+    font-family: "Barlow Condensed", "Barlow", sans-serif;
+    font-size: clamp(24px, 2.2vw, 36px);
+    font-weight: 800;
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+:where(.cmp-pshow-desc) {
+    display: block;
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.55;
+}
+:where(.cmp-pshow-progress) {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    overflow: hidden;
+    border-radius: 999px;
+}
+:where(.cmp-pshow-progress span) {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+}
+:where(.cmp-pshow-step.is-active .cmp-pshow-progress span) {
+    width: var(--cmp-pshow-progress, 0%);
+}
+:where(.cmp-pshow-media) {
+    position: relative;
+    overflow: hidden;
+    min-height: 260px;
+    isolation: isolate;
+}
+:where(.cmp-pshow-image) {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(14px) scale(1.015);
+    transition: opacity 420ms ease, transform 520ms ease;
+    pointer-events: none;
+}
+:where(.cmp-pshow-image.is-active) {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+:where(.cmp-pshow-image[hidden]) {
+    display: block;
+}
+.cmp-pshow-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+}
+:where(.cmp-pshow-image::after) {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+:where(.cmp-pshow-media-label) {
+    position: absolute;
+    right: 24px;
+    bottom: 22px;
+    z-index: 2;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+@media (max-width: 960px) {
+    :where(.cmp-pshow-grid) {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+    :where(.cmp-pshow-list) {
+        order: 2;
+    }
+    .cmp-pshow-media {
+        order: 1;
+        width: 100%;
+        min-height: 320px;
+    }
+}
+@media (max-width: 640px) {
+    :where(.cmp-pshow-step) {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    :where(.cmp-pshow-title) {
+        font-size: 28px;
+    }
+    :where(.cmp-pshow-desc) {
+        font-size: 15px;
+    }
 }
