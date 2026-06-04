@@ -277,6 +277,69 @@ class CMP_Split_Scroll extends \Elementor\Widget_Base {
             ],
         ] );
 
+        $this->add_responsive_control( 'media_height', [
+            'label'       => __( 'Image Height', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::SLIDER,
+            'size_units'  => [ 'vh', 'px', '%' ],
+            'range'       => [
+                'vh' => [ 'min' => 30, 'max' => 100 ],
+                'px' => [ 'min' => 200, 'max' => 1400 ],
+                '%'  => [ 'min' => 30, 'max' => 100 ],
+            ],
+            'default'     => [ 'size' => 100, 'unit' => 'vh' ],
+            'selectors'   => [ '{{WRAPPER}} .cmp-split-scroll__media' => '--ss-media-height: {{SIZE}}{{UNIT}};' ],
+            'description' => __( 'Height of the sticky image panel. 100vh fills the screen height.', 'arenex-digital-widgets' ),
+        ] );
+
+        $this->add_responsive_control( 'sticky_offset', [
+            'label'       => __( 'Sticky Top Offset', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::SLIDER,
+            'size_units'  => [ 'px' ],
+            'range'       => [ 'px' => [ 'min' => 0, 'max' => 200 ] ],
+            'default'     => [ 'size' => 0, 'unit' => 'px' ],
+            'selectors'   => [ '{{WRAPPER}} .cmp-split-scroll__media' => '--ss-sticky-top: {{SIZE}}{{UNIT}};' ],
+            'description' => __( 'Push the sticky image down by your fixed header height so it never hides behind it.', 'arenex-digital-widgets' ),
+        ] );
+
+        $this->add_control( 'image_object_fit', [
+            'label'     => __( 'Image Fit', 'arenex-digital-widgets' ),
+            'type'      => \Elementor\Controls_Manager::SELECT,
+            'default'   => 'cover',
+            'options'   => [
+                'cover'      => __( 'Cover (fill, may crop)', 'arenex-digital-widgets' ),
+                'contain'    => __( 'Contain (fit, no crop)', 'arenex-digital-widgets' ),
+                'fill'       => __( 'Fill (stretch)', 'arenex-digital-widgets' ),
+                'none'       => __( 'None (original size)', 'arenex-digital-widgets' ),
+                'scale-down' => __( 'Scale down', 'arenex-digital-widgets' ),
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .cmp-split-scroll__img'                 => 'object-fit: {{VALUE}};',
+                '{{WRAPPER}} .cmp-split-scroll__panel-img-mobile img' => 'object-fit: {{VALUE}};',
+            ],
+        ] );
+
+        $this->add_control( 'image_object_position', [
+            'label'     => __( 'Image Position', 'arenex-digital-widgets' ),
+            'type'      => \Elementor\Controls_Manager::SELECT,
+            'default'   => 'center center',
+            'options'   => [
+                'center center' => __( 'Center', 'arenex-digital-widgets' ),
+                'top center'    => __( 'Top', 'arenex-digital-widgets' ),
+                'bottom center' => __( 'Bottom', 'arenex-digital-widgets' ),
+                'center left'   => __( 'Left', 'arenex-digital-widgets' ),
+                'center right'  => __( 'Right', 'arenex-digital-widgets' ),
+                'top left'      => __( 'Top Left', 'arenex-digital-widgets' ),
+                'top right'     => __( 'Top Right', 'arenex-digital-widgets' ),
+                'bottom left'   => __( 'Bottom Left', 'arenex-digital-widgets' ),
+                'bottom right'  => __( 'Bottom Right', 'arenex-digital-widgets' ),
+            ],
+            'condition' => [ 'image_object_fit!' => 'fill' ],
+            'selectors' => [
+                '{{WRAPPER}} .cmp-split-scroll__img'                 => 'object-position: {{VALUE}};',
+                '{{WRAPPER}} .cmp-split-scroll__panel-img-mobile img' => 'object-position: {{VALUE}};',
+            ],
+        ] );
+
         $this->end_controls_section();
 
         /* ── Style Tab: Buttons ── */
