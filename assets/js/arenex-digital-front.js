@@ -648,3 +648,152 @@
     }
 
 })();
+
+
+/* ============================================================
+   RESTORED — Vertical Image Gallery + Process Showcase JS init
+   (dropped in the v5.0.0 merge; recovered from v4.2.9). Self-contained,
+   guarded by .cmp-vig-bound / .cmp-pshow-bound so it never double-inits.
+   ============================================================ */
+(function () {
+    function initVerticalImageGallery(scope) {
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        (scope || document).querySelectorAll('[data-cmp-vertical-gallery]:not(.cmp-vig-bound)').forEach(function (wrap) {
+            wrap.classList.add('cmp-vig-bound');
+            var speed = parseFloat(wrap.getAttribute('data-speed') || '34');
+            var autoplay = wrap.getAttribute('data-autoplay') === '1' && !reduceMotion;
+            var pauseHover = wrap.getAttribute('data-pause-hover') === '1';
+            wrap.style.setProperty('--cmp-vig-speed', Math.max(8, speed) + 's');
+            if (autoplay) wrap.classList.add('is-autoplay');
+            if (autoplay && pauseHover) {
+                wrap.addEventListener('mouseenter', function () { wrap.classList.add('is-paused'); });
+                wrap.addEventListener('mouseleave', function () { wrap.classList.remove('is-paused'); });
+                wrap.addEventListener('touchstart', function () { wrap.classList.add('is-paused'); }, { passive: true });
+                wrap.addEventListener('touchend', function () {
+                    window.setTimeout(function () { wrap.classList.remove('is-paused'); }, 1200);
+                }, { passive: true });
+            }
+        });
+    }
+
+    function initProcessShowcase(scope) {
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        (scope || document).querySelectorAll('[data-cmp-process-showcase]:not(.cmp-pshow-bound)').forEach(function (wrap) {
+            wrap.classList.add('cmp-pshow-bound');
+            var steps = Array.prototype.slice.call(wrap.querySelectorAll('.cmp-pshow-step'));
+            var panels = Array.prototype.slice.call(wrap.querySelectorAll('.cmp-pshow-image'));
+            if (!steps.length || !panels.length) return;
+
+            var current = parseInt(wrap.getAttribute('data-initial') || '0', 10);
+            if (isNaN(current) || current < 0 || current >= steps.length) current = 0;
+            var speed = parseInt(wrap.getAttribute('data-speed') || '6200', 10);
+            var autoplay = wrap.getAttribute('data-autoplay') === '1' && !reduceMotion;
+            var pauseHover = wrap.getAttribute('data-pause-hover') === '1';
+            var paused = false;
+            var progress = autoplay ? 0 : 100;
+            var timer = null;
+            var tickMs = 80;
+
+            function setProgress(value) {
+                progress = Math.max(0, Math.min(100, value));
+                steps.forEach(function (step, index) {
+                    step.style.setProperty('--cmp-pshow-progress', index === current ? progress + '%' : '0%');
+                });
+            }
+
+            function setActive(index, resetProgress) {
+                current = (index + steps.length) % steps.length;
+                steps.forEach(function (step, stepIndex) {
+                    var active = stepIndex === current;
+                    step.classList.toggle('is-active', active);
+                    step.setAttribute('aria-selected', active ? 'true' : 'false');
+                    step.setAttribute('tabindex', active ? '0' : '-1');
+                });
+                panels.forEach(function (panel, panelIndex) {
+                    var active = panelIndex === current;
+                    panel.classList.toggle('is-active', active);
+                    panel.hidden = !active;
+                });
+                setProgress(resetProgress ? (autoplay ? 0 : 100) : progress);
+            }
+
+            function stop() {
+                if (timer) {
+                    window.clearInterval(timer);
+                    timer = null;
+                }
+            }
+
+            function start() {
+                stop();
+                if (!autoplay) {
+                    setProgress(100);
+                    return;
+                }
+                timer = window.setInterval(function () {
+                    if (paused) return;
+                    var next = progress + (tickMs / Math.max(2500, speed)) * 100;
+                    if (next >= 100) {
+                        setActive(current + 1, true);
+                    } else {
+                        setProgress(next);
+                    }
+                }, tickMs);
+            }
+
+            steps.forEach(function (step, index) {
+                step.addEventListener('click', function () {
+                    setActive(index, true);
+                    start();
+                });
+                step.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        setActive(index, true);
+                        start();
+                    }
+                    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+                        event.preventDefault();
+                        setActive(current + 1, true);
+                        steps[current].focus();
+                        start();
+                    }
+                    if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+                        event.preventDefault();
+                        setActive(current - 1, true);
+                        steps[current].focus();
+                        start();
+                    }
+                });
+            });
+
+            if (pauseHover) {
+                wrap.addEventListener('mouseenter', function () { paused = true; });
+                wrap.addEventListener('mouseleave', function () { paused = false; });
+                wrap.addEventListener('touchstart', function () { paused = true; }, { passive: true });
+                wrap.addEventListener('touchend', function () {
+                    window.setTimeout(function () { paused = false; }, 1200);
+                }, { passive: true });
+            }
+
+            setActive(current, true);
+            start();
+        });
+    }
+    function cmpRestoredInit(scope) {
+        initVerticalImageGallery(scope);
+        initProcessShowcase(scope);
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { cmpRestoredInit(document); });
+    } else {
+        cmpRestoredInit(document);
+    }
+    if (window.jQuery) {
+        jQuery(window).on('elementor/frontend/init', function () {
+            elementorFrontend.hooks.addAction('frontend/element_ready/widget', function ($scope) {
+                cmpRestoredInit($scope[0]);
+            });
+        });
+    }
+})();
