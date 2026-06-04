@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+._*
+
+# Editors
+.vscode/
+.idea/
+*.sublime-*
+
+# Build / deps
+node_modules/
+vendor/
+*.log
+
+# Local env
+*.zip
