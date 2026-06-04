@@ -3,13 +3,23 @@
  * Plugin Name:       Arenex Digital Widgets
  * Plugin URI:
  * Description:       Lean agency-grade Elementor widgets by Arenex Digital — Hero, Services, Process, Timeline, Marquee, Reviews Carousel, Portfolio Carousel, Carousel-Card, Split-Scroll, Section-Pattern, Vertical Image Gallery, Process Showcase, Header, Footer. Ships with Master Kits + global Header/Footer + dark-mode color tokens. Works on Elementor Free and Pro.
- * Version:           5.0.3
+ * Version:           5.0.4
  * Author:            Arenex Digital
  * Author URI:
  * Text Domain:       arenex-digital-widgets
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Elementor tested up to: 3.25
+ *
+ * Changelog 5.0.4
+ *
+ *   DISTRIBUTION
+ *   - NEW: Built-in GitHub self-updater (includes/class-adw-github-updater.php).
+ *          When ADW_GH_REPO is set to "owner/repo", every site shows ADW updates
+ *          in Dashboard → Updates and can one-click update from GitHub Releases —
+ *          no more manually re-uploading the ZIP on each client site. Supports
+ *          private repos via a read-only ADW_GH_TOKEN. OFF by default (inert
+ *          until ADW_GH_REPO is configured). Test on a local/staging site first.
  *
  * Changelog 5.0.3
  *
@@ -92,11 +102,27 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'ADW_VERSION',    '5.0.3.' . date( 'YmdHi' ) );
+define( 'ADW_VERSION',    '5.0.4.' . date( 'YmdHi' ) );
 define( 'ADW_FILE',       __FILE__ );
 define( 'ADW_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'ADW_URL',        plugin_dir_url( __FILE__ ) );
 define( 'ADW_ASSETS_URL', ADW_URL . 'assets/' );
+
+/**
+ * ── SELF-UPDATER (GitHub Releases) ──
+ * Set ADW_GH_REPO to "owner/repo" to turn on update notifications on every site
+ * (shown in Dashboard → Updates, one-click update). For a PRIVATE repo, also set
+ * ADW_GH_TOKEN to a fine-grained, READ-ONLY token (Contents: Read).
+ * Leave ADW_GH_REPO empty to keep the updater OFF (default). You can also define
+ * these in wp-config.php so the token stays out of the plugin files.
+ */
+if ( ! defined( 'ADW_GH_REPO' ) )  define( 'ADW_GH_REPO',  '' ); // e.g. 'arenexdigital/arenex-digital-widgets'
+if ( ! defined( 'ADW_GH_TOKEN' ) ) define( 'ADW_GH_TOKEN', '' ); // only for private repos
+
+if ( ADW_GH_REPO && is_admin() ) {
+    require_once ADW_PATH . 'includes/class-adw-github-updater.php';
+    new ADW_GitHub_Updater( ADW_FILE, ADW_GH_REPO, ADW_GH_TOKEN );
+}
 
 /* ── Elementor check ── */
 function adw_check_elementor() {
