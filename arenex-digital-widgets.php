@@ -3,13 +3,28 @@
  * Plugin Name:       Arenex Digital Widgets
  * Plugin URI:
  * Description:       Lean agency-grade Elementor widgets by Arenex Digital — Hero, Services, Process, Timeline, Marquee, Reviews Carousel, Portfolio Carousel, Carousel-Card, Split-Scroll, Section-Pattern, Vertical Image Gallery, Process Showcase, Header, Footer. Ships with Master Kits + global Header/Footer + dark-mode color tokens. Works on Elementor Free and Pro.
- * Version:           5.0.4
+ * Version:           5.0.5
  * Author:            Arenex Digital
  * Author URI:
  * Text Domain:       arenex-digital-widgets
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Elementor tested up to: 3.25
+ *
+ * Changelog 5.0.5
+ *
+ *   REGRESSION FIXES (widget code dropped in the v5.0.0 merge from v4.4.9)
+ *   - Process Showcase: restored its CSS and JS (it had rendered unstyled with
+ *     no auto-advancing progress). Recovered from v4.2.9.
+ *   - Vertical Image Gallery: restored its CSS and JS — the autoplay loop now
+ *     runs again (is-autoplay was never applied).
+ *   - Process Steps (accordion): restored its click handler (cards now expand).
+ *   - All restored JS is self-contained and guarded against double-init.
+ *
+ *   TIMELINE
+ *   - Alternating layout: markers now top-aligned via marker-size so the
+ *     connecting line locks onto every dot regardless of Item Gap padding
+ *     (first/last dots no longer float off the line).
  *
  * Changelog 5.0.4
  *
@@ -102,7 +117,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'ADW_VERSION',    '5.0.4.' . date( 'YmdHi' ) );
+define( 'ADW_VERSION',    '5.0.5.' . date( 'YmdHi' ) );
 define( 'ADW_FILE',       __FILE__ );
 define( 'ADW_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'ADW_URL',        plugin_dir_url( __FILE__ ) );
