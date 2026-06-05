@@ -5510,48 +5510,54 @@ body.cmp-sh-noscroll { overflow: hidden !important; }
 /* hide the single-side line; the alternating line is drawn per item below */
 .cmp-timeline--alt .cmp-timeline__items::before { display: none; }
 
+/* Spacing between alternating items (fixed; the Item Gap control drives the
+   Standard layout). Kept in a var so the connecting-line bridge matches it. */
+.cmp-timeline--alt { --cmp-alt-gap: 56px; }
 .cmp-timeline--alt .cmp-timeline__item {
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--cmp-marker-size, 36px) minmax(0, 1fr);
-    /* Align to the top: the marker then sits at a known offset (marker-size / 2)
-       from the item top, regardless of the per-item bottom padding (Item Gap).
-       This keeps the connecting line locked to the marker centres. */
-    align-items: start;
+    /* Centre the marker on its card so the numbers line up with each item.
+       padding:0 overrides the Item Gap padding (which would offset the centering);
+       spacing comes from margin-bottom, and the line bridges that gap below. */
+    align-items: center;
     column-gap: 28px;
-    padding: 0 0 32px;
+    padding: 0 !important;
+    margin-bottom: var(--cmp-alt-gap);
 }
-/* The marker + its card share the same top, so they line up across the row. */
-.cmp-timeline--alt .cmp-timeline__content { align-self: start; }
-/* Connecting line down the centre, trimmed to start at the first dot and end at the last.
-   Because markers are top-aligned, the trim points are marker-size/2 (a known value),
-   not a percentage that drifts with the item's padding. */
+.cmp-timeline--alt .cmp-timeline__item:last-child { margin-bottom: 0; }
+.cmp-timeline--alt .cmp-timeline__content { align-self: center; }
+/* Connecting line down the centre. Each item's segment spans its full height plus
+   the margin below it (the bridge), so the line stays continuous through every
+   centred marker. First item starts at its marker; last item ends at its marker. */
 .cmp-timeline--alt .cmp-timeline__item::before {
     content: "";
     position: absolute;
     left: calc(50% - 1px);
     top: 0;
-    bottom: 0;
+    bottom: calc(-1 * var(--cmp-alt-gap));
     width: 0;
     background: transparent;
     border: 0 solid #E0E0E0;
     border-left: 2px solid #E0E0E0;
     z-index: 0;
 }
-.cmp-timeline--alt .cmp-timeline__item:first-child::before { top: calc(var(--cmp-marker-size, 36px) / 2); }
-.cmp-timeline--alt .cmp-timeline__item:last-child::before  { bottom: auto; height: calc(var(--cmp-marker-size, 36px) / 2); }
+.cmp-timeline--alt .cmp-timeline__item:first-child::before { top: 50%; }
+.cmp-timeline--alt .cmp-timeline__item:last-child::before  { top: 0; bottom: 50%; }
 
 .cmp-timeline--alt .cmp-timeline__marker {
     position: static;
     left: auto;
     top: auto;
     grid-column: 2;
+    grid-row: 1;            /* keep marker + card in the SAME row so centering lines up */
     justify-self: center;
     margin: 0;
     z-index: 2;
 }
 .cmp-timeline--alt .cmp-timeline__content {
     grid-column: 1;
+    grid-row: 1;            /* without this, the left-side card drops to row 2 (sparse auto-placement) */
     background: #F1F3F4;
     border-radius: 12px;
     padding: 24px 28px;
@@ -5810,7 +5816,10 @@ body.cmp-sh-noscroll { overflow: hidden !important; }
 /* Sticky media column */
 .cmp-split-scroll__media { position: sticky; top: var(--ss-sticky-top, 0px); height: calc(var(--ss-media-height, 100vh) - var(--ss-sticky-top, 0px)); overflow: hidden; align-self: start; }
 .cmp-split-scroll__images { position: relative; width: 100%; height: 100%; }
-.cmp-split-scroll__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.6s ease; }
+/* height:100% !important beats Elementor/theme `img { height: auto }` so the
+   image always fills the panel at any Image Height (it was capping at the
+   image's natural height, leaving empty space above ~1100px). */
+.cmp-split-scroll__img { position: absolute; inset: 0; width: 100%; height: 100% !important; object-fit: cover; transition: opacity 0.6s ease; }
 .cmp-split-scroll__overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 
 /* Panels */
