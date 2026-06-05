@@ -3,13 +3,30 @@
  * Plugin Name:       Arenex Digital Widgets
  * Plugin URI:
  * Description:       Lean agency-grade Elementor widgets by Arenex Digital — Hero, Services, Process, Timeline, Marquee, Reviews Carousel, Portfolio Carousel, Carousel-Card, Split-Scroll, Section-Pattern, Vertical Image Gallery, Process Showcase, Header, Footer. Ships with Master Kits + global Header/Footer + dark-mode color tokens. Works on Elementor Free and Pro.
- * Version:           5.0.5
+ * Version:           5.0.6
  * Author:            Arenex Digital
  * Author URI:
  * Text Domain:       arenex-digital-widgets
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Elementor tested up to: 3.25
+ *
+ * Changelog 5.0.6
+ *
+ *   TIMELINE (alternating)
+ *   - Numbers now center vertically on each card (left-side cards were dropping
+ *     to a second grid row, mis-aligning them). Markers + cards pinned to the
+ *     same row; connecting line bridges the inter-item gap to stay continuous.
+ *
+ *   SPLIT SCROLL
+ *   - NEW controls: Image Height, Image Fit (object-fit), Image Position,
+ *     Sticky Top Offset.
+ *   - FIX: image now fills the chosen height (an Elementor/theme `img{height:auto}`
+ *     rule was capping it at the image's natural height).
+ *
+ *   CLEANUP
+ *   - Removed the Bento Grid widget (no longer used). Its CSS is left in place
+ *     (interleaved with other widgets' rules) but unused/harmless.
  *
  * Changelog 5.0.5
  *
@@ -117,7 +134,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'ADW_VERSION',    '5.0.5.' . date( 'YmdHi' ) );
+define( 'ADW_VERSION',    '5.0.6.' . date( 'YmdHi' ) );
 define( 'ADW_FILE',       __FILE__ );
 define( 'ADW_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'ADW_URL',        plugin_dir_url( __FILE__ ) );
