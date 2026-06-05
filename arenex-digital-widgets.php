@@ -229,8 +229,7 @@ add_action( 'elementor/widgets/register', function ( $widgets_manager ) {
         // 'class-single-post.php'             => 'CMP_Single_Post',  // moved to Elementor Pro Theme Builder
         // 'class-blog-archive.php'            => 'CMP_Blog_Archive',  // moved to Elementor Pro Theme Builder
 
-        /* Bento Grid */
-        'class-bento-grid.php'              => 'CMP_Bento_Grid',
+        // 'class-bento-grid.php'              => 'CMP_Bento_Grid',   // removed — widget no longer needed
     ];
 
     foreach ( $widgets as $file => $class ) {
