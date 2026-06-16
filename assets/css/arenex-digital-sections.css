@@ -7584,3 +7584,169 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
         font-size: 15px;
     }
 }
+
+/* ============================================================
+   ADW — Before / After Slider  (.cmp-ba)
+   clip-path based wipe (no image distortion), touch + keyboard,
+   horizontal + vertical, flexible label placement.
+   ============================================================ */
+.cmp-ba-section { width: 100%; }
+.cmp-ba-inner { width: 100%; margin: 0 auto; }
+
+.cmp-ba-slider {
+    --cmp-ba-pos: 50%;
+    --cmp-ba-line: 3px;
+    --cmp-ba-label-offset: 16px;
+    width: 100%;
+}
+
+.cmp-ba-figure {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #0d0d0d;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;          /* let JS own the gesture, no scroll-jank */
+    cursor: ew-resize;
+}
+.cmp-ba-vertical .cmp-ba-figure { cursor: ns-resize; }
+
+.cmp-ba-after,
+.cmp-ba-before {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.cmp-ba-figure img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+/* The BEFORE layer is clipped from the appropriate edge to --cmp-ba-pos. */
+.cmp-ba-horizontal .cmp-ba-before {
+    clip-path: inset(0 calc(100% - var(--cmp-ba-pos)) 0 0);
+}
+.cmp-ba-vertical .cmp-ba-before {
+    clip-path: inset(0 0 calc(100% - var(--cmp-ba-pos)) 0);
+}
+
+/* Divider line */
+.cmp-ba-divider {
+    position: absolute;
+    background: #fff;
+    pointer-events: none;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.12), 0 0 18px rgba(0,0,0,.28);
+}
+.cmp-ba-horizontal .cmp-ba-divider {
+    top: 0; bottom: 0;
+    left: var(--cmp-ba-pos);
+    width: var(--cmp-ba-line);
+    transform: translateX(-50%);
+}
+.cmp-ba-vertical .cmp-ba-divider {
+    left: 0; right: 0;
+    top: var(--cmp-ba-pos);
+    height: var(--cmp-ba-line);
+    transform: translateY(-50%);
+}
+
+/* Handle */
+.cmp-ba-handle {
+    position: absolute;
+    z-index: 4;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: #111;
+    cursor: grab;
+    box-shadow: 0 4px 14px rgba(0,0,0,.35);
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.cmp-ba-handle:active { cursor: grabbing; transform: scale(.96); }
+.cmp-ba-slider.is-dragging .cmp-ba-handle { box-shadow: 0 6px 22px rgba(0,0,0,.45); }
+.cmp-ba-handle:focus-visible { outline: 3px solid #4f9cff; outline-offset: 3px; }
+.cmp-ba-handle svg { display: block; }
+.cmp-ba-horizontal .cmp-ba-handle {
+    top: 50%;
+    left: var(--cmp-ba-pos);
+    transform: translate(-50%, -50%);
+}
+.cmp-ba-horizontal .cmp-ba-handle:active { transform: translate(-50%, -50%) scale(.96); }
+.cmp-ba-vertical .cmp-ba-handle {
+    left: 50%;
+    top: var(--cmp-ba-pos);
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+.cmp-ba-vertical .cmp-ba-handle:active { transform: translate(-50%, -50%) rotate(90deg) scale(.96); }
+
+/* ---------- Labels ---------- */
+.cmp-ba-label {
+    position: absolute;
+    z-index: 3;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(17,17,17,.72);
+    padding: 6px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+}
+
+/* Top */
+.cmp-ba-labels-top .cmp-ba-label-before { top: var(--cmp-ba-label-offset); left: var(--cmp-ba-label-offset); }
+.cmp-ba-labels-top .cmp-ba-label-after  { top: var(--cmp-ba-label-offset); right: var(--cmp-ba-label-offset); }
+/* Middle */
+.cmp-ba-labels-middle .cmp-ba-label-before { top: 50%; left: var(--cmp-ba-label-offset);  transform: translateY(-50%); }
+.cmp-ba-labels-middle .cmp-ba-label-after  { top: 50%; right: var(--cmp-ba-label-offset); transform: translateY(-50%); }
+/* Bottom */
+.cmp-ba-labels-bottom .cmp-ba-label-before { bottom: var(--cmp-ba-label-offset); left: var(--cmp-ba-label-offset); }
+.cmp-ba-labels-bottom .cmp-ba-label-after  { bottom: var(--cmp-ba-label-offset); right: var(--cmp-ba-label-offset); }
+
+/* On the slider handle — labels ride the divider, before to its left, after to its right */
+.cmp-ba-labels-handle .cmp-ba-label { top: var(--cmp-ba-label-offset); }
+.cmp-ba-labels-handle .cmp-ba-label-before { left: auto; right: calc(100% - var(--cmp-ba-pos) + 14px); }
+.cmp-ba-labels-handle .cmp-ba-label-after  { left: calc(var(--cmp-ba-pos) + 14px); right: auto; }
+.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label { top: auto; left: var(--cmp-ba-label-offset); right: auto; }
+.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label-before { bottom: calc(100% - var(--cmp-ba-pos) + 14px); top: auto; }
+.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label-after  { top: calc(var(--cmp-ba-pos) + 14px); bottom: auto; }
+
+/* Below the image (caption row) */
+.cmp-ba-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+}
+.cmp-ba-caption .cmp-ba-label {
+    position: static;
+    pointer-events: auto;
+}
+
+/* Editor: keep the handle visibly grabbable inside Elementor */
+.elementor-editor-active .cmp-ba-figure { cursor: ew-resize; }
+
+@media (max-width: 767px) {
+    .cmp-ba-figure { height: 320px; }
+    .cmp-ba-label { font-size: 11px; padding: 5px 10px; }
+}

@@ -801,10 +801,96 @@
             });
         });
     }
+    /* ── Before / After comparison slider ── */
+    function initBeforeAfter(scope) {
+        (scope || document).querySelectorAll('[data-cmp-before-after]:not(.cmp-ba-bound)').forEach(function (slider) {
+            slider.classList.add('cmp-ba-bound');
+
+            var figure = slider.querySelector('.cmp-ba-figure');
+            var handle = slider.querySelector('.cmp-ba-handle');
+            if (!figure || !handle) return;
+
+            var vertical = slider.getAttribute('data-orientation') === 'vertical';
+            var hoverMode = slider.getAttribute('data-hover') === '1';
+            var start = parseFloat(slider.getAttribute('data-start'));
+            if (isNaN(start)) start = 50;
+
+            // Touch devices ignore hover-mode and use drag instead.
+            var canHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            var useHover = hoverMode && canHover;
+
+            function setPos(pct) {
+                pct = Math.max(0, Math.min(100, pct));
+                slider.style.setProperty('--cmp-ba-pos', pct + '%');
+                handle.setAttribute('aria-valuenow', Math.round(pct));
+            }
+
+            function posFromEvent(clientX, clientY) {
+                var rect = figure.getBoundingClientRect();
+                if (vertical) {
+                    if (!rect.height) return null;
+                    return ((clientY - rect.top) / rect.height) * 100;
+                }
+                if (!rect.width) return null;
+                return ((clientX - rect.left) / rect.width) * 100;
+            }
+
+            setPos(start);
+
+            var dragging = false;
+
+            function onMove(e) {
+                var point = e.touches ? e.touches[0] : e;
+                var pct = posFromEvent(point.clientX, point.clientY);
+                if (pct !== null) setPos(pct);
+            }
+
+            function startDrag(e) {
+                dragging = true;
+                slider.classList.add('is-dragging');
+                onMove(e);
+                if (e.cancelable) e.preventDefault();
+            }
+            function stopDrag() {
+                dragging = false;
+                slider.classList.remove('is-dragging');
+            }
+            function dragMove(e) {
+                if (!dragging) return;
+                onMove(e);
+                if (e.cancelable) e.preventDefault();
+            }
+
+            // Pointer / mouse / touch drag
+            figure.addEventListener('mousedown', startDrag);
+            window.addEventListener('mousemove', dragMove);
+            window.addEventListener('mouseup', stopDrag);
+            figure.addEventListener('touchstart', startDrag, { passive: false });
+            window.addEventListener('touchmove', dragMove, { passive: false });
+            window.addEventListener('touchend', stopDrag);
+
+            // Hover-follow (desktop only)
+            if (useHover) {
+                figure.addEventListener('mousemove', function (e) { if (!dragging) onMove(e); });
+            }
+
+            // Keyboard accessibility
+            handle.addEventListener('keydown', function (e) {
+                var current = parseFloat(handle.getAttribute('aria-valuenow')) || 50;
+                var step = e.shiftKey ? 10 : 2;
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { setPos(current - step); e.preventDefault(); }
+                else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { setPos(current + step); e.preventDefault(); }
+                else if (e.key === 'Home') { setPos(0); e.preventDefault(); }
+                else if (e.key === 'End') { setPos(100); e.preventDefault(); }
+            });
+        });
+    }
+
     function cmpRestoredInit(scope) {
         initVerticalImageGallery(scope);
         initProcessShowcase(scope);
         initProcessAccordion(scope);
+        initBeforeAfter(scope);
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { cmpRestoredInit(document); });

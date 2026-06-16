@@ -3,7 +3,7 @@
  * Plugin Name:       Arenex Digital Widgets
  * Plugin URI:
  * Description:       Lean agency-grade Elementor widgets by Arenex Digital — Hero, Services, Process, Timeline, Marquee, Reviews Carousel, Portfolio Carousel, Carousel-Card, Split-Scroll, Section-Pattern, Vertical Image Gallery, Process Showcase, Header, Footer. Ships with Master Kits + global Header/Footer + dark-mode color tokens. Works on Elementor Free and Pro.
- * Version:           5.0.6
+ * Version:           5.0.7
  * Author:            Arenex Digital
  * Author URI:
  * Text Domain:       arenex-digital-widgets
@@ -134,7 +134,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'ADW_VERSION',    '5.0.6.' . date( 'YmdHi' ) );
+define( 'ADW_VERSION',    '5.0.7.' . date( 'YmdHi' ) );
 define( 'ADW_FILE',       __FILE__ );
 define( 'ADW_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'ADW_URL',        plugin_dir_url( __FILE__ ) );
@@ -241,6 +241,7 @@ add_action( 'elementor/widgets/register', function ( $widgets_manager ) {
         'class-split-scroll.php'            => 'CMP_Split_Scroll',
         'class-vertical-image-gallery.php'  => 'CMP_Vertical_Image_Gallery',
         'class-process-showcase.php'        => 'CMP_Process_Showcase',
+        'class-before-after.php'            => 'CMP_Before_After',          // drag-to-reveal comparison slider
 
         /* Blog System */
         // 'class-single-post.php'             => 'CMP_Single_Post',  // moved to Elementor Pro Theme Builder
