@@ -7723,13 +7723,14 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
 .cmp-ba-labels-bottom .cmp-ba-label-before { bottom: var(--cmp-ba-label-offset); left: var(--cmp-ba-label-offset); }
 .cmp-ba-labels-bottom .cmp-ba-label-after  { bottom: var(--cmp-ba-label-offset); right: var(--cmp-ba-label-offset); }
 
-/* On the slider handle — labels ride the divider, before to its left, after to its right */
-.cmp-ba-labels-handle .cmp-ba-label { top: var(--cmp-ba-label-offset); }
-.cmp-ba-labels-handle .cmp-ba-label-before { left: auto; right: calc(100% - var(--cmp-ba-pos) + 14px); }
-.cmp-ba-labels-handle .cmp-ba-label-after  { left: calc(var(--cmp-ba-pos) + 14px); right: auto; }
-.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label { top: auto; left: var(--cmp-ba-label-offset); right: auto; }
-.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label-before { bottom: calc(100% - var(--cmp-ba-pos) + 14px); top: auto; }
-.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label-after  { top: calc(var(--cmp-ba-pos) + 14px); bottom: auto; }
+/* On the slider handle — labels ride beside the handle at mid-height,
+   before just left of the arrows, after just right (clears the handle circle). */
+.cmp-ba-horizontal.cmp-ba-labels-handle .cmp-ba-label { top: 50%; transform: translateY(-50%); }
+.cmp-ba-horizontal.cmp-ba-labels-handle .cmp-ba-label-before { left: auto; right: calc(100% - var(--cmp-ba-pos) + 34px); }
+.cmp-ba-horizontal.cmp-ba-labels-handle .cmp-ba-label-after  { left: calc(var(--cmp-ba-pos) + 34px); right: auto; }
+.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label { left: 50%; right: auto; top: auto; transform: translateX(-50%); }
+.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label-before { bottom: calc(100% - var(--cmp-ba-pos) + 34px); top: auto; }
+.cmp-ba-vertical.cmp-ba-labels-handle .cmp-ba-label-after  { top: calc(var(--cmp-ba-pos) + 34px); bottom: auto; }
 
 /* Below the image (caption row) */
 .cmp-ba-caption {
