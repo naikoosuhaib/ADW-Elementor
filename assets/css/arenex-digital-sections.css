@@ -7669,7 +7669,7 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
     align-items: center;
     justify-content: center;
     padding: 0 !important;
-    border: 0;
+    border: 0 !important;
     border-radius: 50%;
     background: #fff;
     box-sizing: border-box;

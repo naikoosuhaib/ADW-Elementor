@@ -237,6 +237,41 @@ class CMP_Before_After extends \Elementor\Widget_Base {
             'default'    => [ 'size' => 46, 'unit' => 'px' ],
             'selectors'  => [ '{{WRAPPER}} .cmp-ba-handle' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};' ],
         ] );
+        $this->add_responsive_control( 'handle_icon_size', [
+            'label'       => __( 'Handle Icon Size', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::SLIDER,
+            'size_units'  => [ '%' ],
+            'range'       => [ '%' => [ 'min' => 15, 'max' => 90 ] ],
+            'default'     => [ 'size' => 40, 'unit' => '%' ],
+            'description' => __( 'Icon size relative to the handle.', 'arenex-digital-widgets' ),
+            'selectors'   => [
+                '{{WRAPPER}} .cmp-ba-handle svg'                => 'width: {{SIZE}}%; height: {{SIZE}}%;',
+                '{{WRAPPER}} .cmp-ba-handle .cmp-ba-handle-img' => 'width: {{SIZE}}%; height: {{SIZE}}%;',
+            ],
+        ] );
+        $this->add_responsive_control( 'handle_padding', [
+            'label'      => __( 'Handle Inner Padding', 'arenex-digital-widgets' ),
+            'type'       => \Elementor\Controls_Manager::SLIDER,
+            'size_units' => [ 'px' ],
+            'range'      => [ 'px' => [ 'min' => 0, 'max' => 30 ] ],
+            'default'    => [ 'size' => 0, 'unit' => 'px' ],
+            'selectors'  => [ '{{WRAPPER}} .cmp-ba-handle' => 'padding: {{SIZE}}{{UNIT}} !important;' ],
+        ] );
+        $this->add_responsive_control( 'handle_border_width', [
+            'label'       => __( 'Handle Border Width', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::SLIDER,
+            'size_units'  => [ 'px' ],
+            'range'       => [ 'px' => [ 'min' => 0, 'max' => 12 ] ],
+            'default'     => [ 'size' => 0, 'unit' => 'px' ],
+            'description' => __( 'Outline ring around the handle. 0 = no ring.', 'arenex-digital-widgets' ),
+            'selectors'   => [ '{{WRAPPER}} .cmp-ba-handle' => 'border-style: solid !important; border-width: {{SIZE}}{{UNIT}} !important;' ],
+        ] );
+        $this->add_control( 'handle_border_color', [
+            'label'     => __( 'Handle Border Color', 'arenex-digital-widgets' ),
+            'type'      => \Elementor\Controls_Manager::COLOR,
+            'default'   => '#ffffff',
+            'selectors' => [ '{{WRAPPER}} .cmp-ba-handle' => 'border-color: {{VALUE}} !important;' ],
+        ] );
 
         $this->end_controls_section();
 
