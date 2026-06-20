@@ -7665,7 +7665,6 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
     z-index: 4;
     width: 46px;
     height: 46px;
-    font-size: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7681,9 +7680,9 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
 .cmp-ba-handle:active { cursor: grabbing; transform: scale(.96); }
 .cmp-ba-slider.is-dragging .cmp-ba-handle { box-shadow: 0 6px 22px rgba(0,0,0,.45); }
 .cmp-ba-handle:focus-visible { outline: 3px solid #4f9cff; outline-offset: 3px; }
-.cmp-ba-handle svg { display: block; width: 0.4em; height: 0.4em; }
-.cmp-ba-handle i { font-size: 0.4em; line-height: 1; }
-.cmp-ba-handle .cmp-ba-handle-img { display: block; width: 0.52em; height: 0.52em; object-fit: contain; pointer-events: none; }
+.cmp-ba-handle svg { display: block; width: 40%; height: 40%; }
+.cmp-ba-handle i { font-size: 18px; line-height: 1; }
+.cmp-ba-handle .cmp-ba-handle-img { display: block; width: 50%; height: 50%; object-fit: contain; pointer-events: none; }
 .cmp-ba-horizontal .cmp-ba-handle {
     top: 50%;
     left: var(--cmp-ba-pos);

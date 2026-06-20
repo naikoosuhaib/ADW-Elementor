@@ -5,7 +5,7 @@
  * GitHub Plugin URI: naikoosuhaib/ADW-Elementor
  * Primary Branch:    main
  * Description:       Lean agency-grade Elementor widgets by Arenex Digital — Hero, Services, Process, Timeline, Marquee, Reviews Carousel, Portfolio Carousel, Carousel-Card, Split-Scroll, Section-Pattern, Vertical Image Gallery, Process Showcase, Header, Footer. Ships with Master Kits + global Header/Footer + dark-mode color tokens. Works on Elementor Free and Pro.
- * Version:           5.1.0
+ * Version:           5.1.1
  * Author:            Arenex Digital
  * Author URI:
  * Text Domain:       arenex-digital-widgets
@@ -136,7 +136,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'ADW_VERSION',    '5.1.0.' . date( 'YmdHi' ) );
+define( 'ADW_VERSION',    '5.1.1.' . date( 'YmdHi' ) );
 define( 'ADW_FILE',       __FILE__ );
 define( 'ADW_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'ADW_URL',        plugin_dir_url( __FILE__ ) );

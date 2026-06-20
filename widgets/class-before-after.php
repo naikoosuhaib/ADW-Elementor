@@ -235,7 +235,7 @@ class CMP_Before_After extends \Elementor\Widget_Base {
             'size_units' => [ 'px' ],
             'range'      => [ 'px' => [ 'min' => 28, 'max' => 80 ] ],
             'default'    => [ 'size' => 46, 'unit' => 'px' ],
-            'selectors'  => [ '{{WRAPPER}} .cmp-ba-handle' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}}; font-size: {{SIZE}}{{UNIT}};' ],
+            'selectors'  => [ '{{WRAPPER}} .cmp-ba-handle' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};' ],
         ] );
 
         $this->end_controls_section();
