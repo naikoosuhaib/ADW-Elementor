@@ -207,11 +207,27 @@ class CMP_Before_After extends \Elementor\Widget_Base {
             'default'   => '#ffffff',
             'selectors' => [ '{{WRAPPER}} .cmp-ba-handle' => 'background: {{VALUE}};' ],
         ] );
+        $this->add_control( 'handle_svg', [
+            'label'       => __( 'Handle Icon (SVG / image upload)', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::MEDIA,
+            'media_types' => [ 'image', 'svg' ],
+            'description' => __( 'Upload a custom SVG (or PNG) to use as the handle. This is the simplest option and overrides the icon picker and built-in arrows. Requires SVG uploads enabled in Elementor.', 'arenex-digital-widgets' ),
+        ] );
+        $this->add_control( 'handle_icon', [
+            'label'       => __( 'Handle Icon (library)', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::ICONS,
+            'description' => __( 'Optional. Used only if no SVG/image is uploaded above. Leave empty for the built-in arrows.', 'arenex-digital-widgets' ),
+        ] );
         $this->add_control( 'handle_icon_color', [
             'label'     => __( 'Handle Arrow Color', 'arenex-digital-widgets' ),
             'type'      => \Elementor\Controls_Manager::COLOR,
             'default'   => '#111111',
-            'selectors' => [ '{{WRAPPER}} .cmp-ba-handle svg' => 'fill: {{VALUE}}; stroke: {{VALUE}};' ],
+            'selectors' => [
+                // `color` drives currentColor for the built-in chevron, Font Awesome font icons (i), and FA inline-SVG icons (fill:currentColor).
+                '{{WRAPPER}} .cmp-ba-handle'             => 'color: {{VALUE}};',
+                '{{WRAPPER}} .cmp-ba-handle i'           => 'color: {{VALUE}};',
+                '{{WRAPPER}} .cmp-ba-handle svg path'    => 'stroke: {{VALUE}};',
+            ],
         ] );
         $this->add_responsive_control( 'handle_size', [
             'label'      => __( 'Handle Size', 'arenex-digital-widgets' ),
@@ -309,6 +325,11 @@ class CMP_Before_After extends \Elementor\Widget_Base {
         $before   = $this->img( $s['before_image'] ?? [], __( 'Before image', 'arenex-digital-widgets' ) );
         $after    = $this->img( $s['after_image'] ?? [],  __( 'After image', 'arenex-digital-widgets' ) );
 
+        $handle_svg      = $s['handle_svg'] ?? [];
+        $has_handle_svg  = ! empty( $handle_svg['url'] );
+        $handle_icon     = $s['handle_icon'] ?? [];
+        $has_handle_icon = ! empty( $handle_icon['value'] );
+
         $orientation = ( $s['orientation'] ?? 'horizontal' ) === 'vertical' ? 'vertical' : 'horizontal';
         $start       = isset( $s['start_position']['size'] ) ? max( 0, min( 100, (float) $s['start_position']['size'] ) ) : 50;
         $hover       = ( $s['hover_mode'] ?? '' ) === 'yes' ? '1' : '0';
@@ -357,9 +378,15 @@ class CMP_Before_After extends \Elementor\Widget_Base {
                                 aria-label="<?php echo esc_attr__( 'Drag to compare before and after', 'arenex-digital-widgets' ); ?>"
                                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo esc_attr( round( $start ) ); ?>"
                                 tabindex="0">
-                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                                <path d="M9.5 7L5 12l4.5 5M14.5 7l4.5 5-4.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <?php if ( $has_handle_svg ) : ?>
+                                <img class="cmp-ba-handle-img" src="<?php echo esc_url( $handle_svg['url'] ); ?>" alt="" aria-hidden="true" draggable="false">
+                            <?php elseif ( $has_handle_icon ) :
+                                \Elementor\Icons_Manager::render_icon( $handle_icon, [ 'aria-hidden' => 'true' ] );
+                            else : ?>
+                                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                                    <path d="M9.5 7L5 12l4.5 5M14.5 7l4.5 5-4.5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            <?php endif; ?>
                         </button>
                     </figure>
 
