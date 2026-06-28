@@ -842,7 +842,9 @@ class CMP_Site_Header extends \Elementor\Widget_Base {
                                 \Elementor\Icons_Manager::render_icon( $s['cta_icon'], [ 'aria-hidden' => 'true' ] );
                             }
                             echo esc_html( $s['cta_text'] );
-                            if ( ! $cta_has_icon && $cta_show_arr ) { echo ' &rarr;'; }
+                            // Arrow is supplied by the global .cmp-sh-cta::after icon system (respects
+                            // .cmp-sh-cta--no-arrow). Do NOT also echo a literal &rarr; here or the
+                            // drawer CTA renders two arrows. (Desktop render correctly omits it.)
                             ?>
                         </a>
                     <?php endif; ?>
