@@ -7754,3 +7754,34 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
     .cmp-ba-figure { height: 320px; }
     .cmp-ba-label { font-size: 11px; padding: 5px 10px; }
 }
+
+/* ============================================================
+   ADW — Site Header sticky / smart-scroll behavior
+   position:fixed (sticky won't work inside Elementor's widget
+   wrapper); a JS spacer holds the layout. Smart mode hides on
+   scroll-down, reveals on scroll-up via translateY.
+   ============================================================ */
+.cmp-sh--sticky {
+    transition: transform .35s cubic-bezier(.22,.61,.36,1),
+                background-color .3s ease,
+                box-shadow .3s ease;
+    will-change: transform;
+}
+.cmp-sh--sticky.is-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9999;
+}
+.cmp-sh--sticky-shadow.is-stuck {
+    box-shadow: 0 6px 24px rgba(0,0,0,.18);
+}
+.cmp-sh--sticky.is-hidden {
+    transform: translateY(-100%);
+}
+.cmp-sh-spacer { width: 100%; height: 0; }
+
+/* Never fix the header inside the Elementor editor (it would cover the UI) */
+.elementor-editor-active .cmp-sh--sticky.is-fixed { position: static; }

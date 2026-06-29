@@ -886,11 +886,75 @@
         });
     }
 
+    /* ── Sticky / smart-scroll site header ── */
+    function initStickyHeader(scope) {
+        // Never pin the header inside the Elementor editor — it covers the UI.
+        if (document.body.classList.contains('elementor-editor-active')) return;
+
+        (scope || document).querySelectorAll('[data-cmp-sticky]:not(.cmp-sh-sticky-bound)').forEach(function (nav) {
+            nav.classList.add('cmp-sh-sticky-bound');
+
+            var mode = nav.getAttribute('data-cmp-sticky') || 'smart';
+            var offset = parseInt(nav.getAttribute('data-sticky-offset') || '80', 10);
+            if (isNaN(offset)) offset = 80;
+
+            // A spacer takes the header's place in flow when it goes position:fixed,
+            // so the page below doesn't jump up.
+            var spacer = document.createElement('div');
+            spacer.className = 'cmp-sh-spacer';
+            spacer.setAttribute('aria-hidden', 'true');
+            if (nav.parentNode) nav.parentNode.insertBefore(spacer, nav);
+
+            var fixed = false;
+            var lastY = window.pageYOffset || 0;
+            var ticking = false;
+
+            function syncSpacer() {
+                spacer.style.height = fixed ? nav.offsetHeight + 'px' : '0px';
+            }
+
+            function update() {
+                var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+                var goingDown = y > lastY;
+
+                if (y > offset) {
+                    if (!fixed) {
+                        fixed = true;
+                        nav.classList.add('is-fixed', 'is-stuck');
+                        syncSpacer();
+                    }
+                    if (mode === 'smart') {
+                        if (goingDown && y > offset + 10) {
+                            nav.classList.add('is-hidden');   // slide up out of the way
+                        } else if (!goingDown) {
+                            nav.classList.remove('is-hidden'); // drop back in on scroll-up
+                        }
+                    }
+                } else if (fixed) {
+                    fixed = false;
+                    nav.classList.remove('is-fixed', 'is-stuck', 'is-hidden');
+                    syncSpacer();
+                }
+
+                lastY = y < 0 ? 0 : y;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', function () {
+                if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+            }, { passive: true });
+            window.addEventListener('resize', function () { if (fixed) syncSpacer(); });
+
+            update();
+        });
+    }
+
     function cmpRestoredInit(scope) {
         initVerticalImageGallery(scope);
         initProcessShowcase(scope);
         initProcessAccordion(scope);
         initBeforeAfter(scope);
+        initStickyHeader(scope);
     }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () { cmpRestoredInit(document); });

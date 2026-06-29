@@ -289,6 +289,67 @@ class CMP_Site_Header extends \Elementor\Widget_Base {
         $this->end_controls_section();
 
         /* ═══════════════════════════════════
+         *  CONTENT — Sticky / Scroll behavior
+         * ═══════════════════════════════════ */
+        $this->start_controls_section( 'sec_sticky', [
+            'label' => __( 'Sticky Header', 'arenex-digital-widgets' ),
+            'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+        ] );
+
+        $this->add_control( 'sticky_enable', [
+            'label'        => __( 'Sticky Header', 'arenex-digital-widgets' ),
+            'type'         => \Elementor\Controls_Manager::SWITCHER,
+            'label_on'     => __( 'On', 'arenex-digital-widgets' ),
+            'label_off'    => __( 'Off', 'arenex-digital-widgets' ),
+            'return_value' => 'yes',
+            'default'      => '',
+        ] );
+
+        $this->add_control( 'sticky_mode', [
+            'label'       => __( 'Sticky Behavior', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::SELECT,
+            'default'     => 'smart',
+            'options'     => [
+                'always' => __( 'Always visible while scrolling', 'arenex-digital-widgets' ),
+                'smart'  => __( 'Hide on scroll down, show on scroll up', 'arenex-digital-widgets' ),
+            ],
+            'description' => __( 'Smart mode slides the header up out of the way as you scroll down, then drops it back in the moment you scroll up.', 'arenex-digital-widgets' ),
+            'condition'   => [ 'sticky_enable' => 'yes' ],
+        ] );
+
+        $this->add_control( 'sticky_offset', [
+            'label'       => __( 'Activate After Scrolling (px)', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::NUMBER,
+            'min'         => 0,
+            'max'         => 600,
+            'step'        => 10,
+            'default'     => 80,
+            'description' => __( 'How far down the page before the sticky behavior kicks in.', 'arenex-digital-widgets' ),
+            'condition'   => [ 'sticky_enable' => 'yes' ],
+        ] );
+
+        $this->add_control( 'sticky_bg', [
+            'label'       => __( 'Background When Stuck', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::COLOR,
+            'default'     => '',
+            'description' => __( 'Optional — a solid/darker background once the header is stuck (great when the header starts transparent over a hero). Leave empty to keep the normal background.', 'arenex-digital-widgets' ),
+            'selectors'   => [ '{{WRAPPER}} .cmp-sh.is-stuck' => 'background-color: {{VALUE}};' ],
+            'condition'   => [ 'sticky_enable' => 'yes' ],
+        ] );
+
+        $this->add_control( 'sticky_shadow', [
+            'label'        => __( 'Shadow When Stuck', 'arenex-digital-widgets' ),
+            'type'         => \Elementor\Controls_Manager::SWITCHER,
+            'label_on'     => __( 'On', 'arenex-digital-widgets' ),
+            'label_off'    => __( 'Off', 'arenex-digital-widgets' ),
+            'return_value' => 'yes',
+            'default'      => 'yes',
+            'condition'    => [ 'sticky_enable' => 'yes' ],
+        ] );
+
+        $this->end_controls_section();
+
+        /* ═══════════════════════════════════
          *  STYLE — Header
          * ═══════════════════════════════════ */
         $this->start_controls_section( 'style_header', [
@@ -698,7 +759,21 @@ class CMP_Site_Header extends \Elementor\Widget_Base {
             }
         }
         ?>
-        <nav class="cmp-sh cmp-sh-<?php echo esc_attr( $wid ); ?><?php echo ( 'yes' === ( $s['header_glass'] ?? '' ) ) ? ' cmp-sh--glass' : ''; ?><?php echo esc_attr( $menu_align_cls ); ?>">
+        <?php
+        $sticky_on   = 'yes' === ( $s['sticky_enable'] ?? '' );
+        $sticky_mode = in_array( ( $s['sticky_mode'] ?? 'smart' ), [ 'always', 'smart' ], true ) ? $s['sticky_mode'] : 'smart';
+        $sticky_off  = isset( $s['sticky_offset'] ) && '' !== $s['sticky_offset'] ? absint( $s['sticky_offset'] ) : 80;
+        $sticky_cls  = '';
+        $sticky_attr = '';
+        if ( $sticky_on ) {
+            $sticky_cls  = ' cmp-sh--sticky cmp-sh--sticky-' . $sticky_mode;
+            if ( 'yes' === ( $s['sticky_shadow'] ?? 'yes' ) ) {
+                $sticky_cls .= ' cmp-sh--sticky-shadow';
+            }
+            $sticky_attr = ' data-cmp-sticky="' . esc_attr( $sticky_mode ) . '" data-sticky-offset="' . esc_attr( $sticky_off ) . '"';
+        }
+        ?>
+        <nav class="cmp-sh cmp-sh-<?php echo esc_attr( $wid ); ?><?php echo ( 'yes' === ( $s['header_glass'] ?? '' ) ) ? ' cmp-sh--glass' : ''; ?><?php echo esc_attr( $menu_align_cls ); ?><?php echo esc_attr( $sticky_cls ); ?>"<?php echo $sticky_attr; ?>>
             <div class="cmp-sh-inner">
                 <a href="/" class="cmp-sh-brand">
                     <?php if ( ! empty( $s['logo_image']['url'] ) ) : ?>

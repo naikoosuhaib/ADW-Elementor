@@ -14,3 +14,7 @@ vendor/
 
 # Local env
 *.zip
+
+# …but the Master Kit packages MUST ship with the plugin (the Kits admin
+# page serves assets/kits/<slug>.zip). Keep them tracked despite *.zip above.
+!assets/kits/*.zip
