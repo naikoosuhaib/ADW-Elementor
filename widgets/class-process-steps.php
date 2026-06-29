@@ -28,10 +28,10 @@ class CMP_Process_Steps extends \Elementor\Widget_Base {
             'type'    => \Elementor\Controls_Manager::REPEATER,
             'fields'  => $repeater->get_controls(),
             'default' => [
-                [ 'number' => '01', 'title' => 'Consultation',        'description' => 'We assess your needs and develop a comprehensive understanding of your requirements.' ],
-                [ 'number' => '02', 'title' => 'Custom Design',       'description' => 'We design a tailored plan that aligns with your goals and budget.' ],
-                [ 'number' => '03', 'title' => 'Professional Install', 'description' => 'Our certified techs install everything with precision and care.' ],
-                [ 'number' => '04', 'title' => 'Ongoing Support',     'description' => 'We provide maintenance and support to keep everything running smoothly.' ],
+                [ 'number' => '01', 'title' => 'Discovery',   'description' => 'We assess your needs and develop a comprehensive understanding of your goals.' ],
+                [ 'number' => '02', 'title' => 'Strategy',    'description' => 'We map out a tailored plan that aligns with your goals and budget.' ],
+                [ 'number' => '03', 'title' => 'Design & Build', 'description' => 'Our team brings the plan to life with precision and care.' ],
+                [ 'number' => '04', 'title' => 'Launch & Support', 'description' => 'We launch and provide ongoing support to keep everything running smoothly.' ],
             ],
             'title_field' => '{{{ number }}} — {{{ title }}}',
         ] );

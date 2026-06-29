@@ -149,7 +149,7 @@ class CMP_Site_Footer extends \Elementor\Widget_Base {
         $link_col_rep->add_control( 'col_links', [
             'label'       => __( 'Links (Label | URL per line)', 'arenex-digital-widgets' ),
             'type'        => \Elementor\Controls_Manager::TEXTAREA,
-            'default'     => "Home | /\nShop | /shop\nCharters | /charters\nAbout | /about",
+            'default'     => "Home | /\nServices | /services\nAbout | /about\nContact | /contact",
             'description' => __( 'One link per line: Label | URL', 'arenex-digital-widgets' ),
         ] );
 

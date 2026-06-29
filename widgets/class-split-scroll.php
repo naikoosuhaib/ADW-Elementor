@@ -118,13 +118,13 @@ class CMP_Split_Scroll extends \Elementor\Widget_Base {
             'default'     => [
                 [
                     'eyebrow'     => 'The Problem',
-                    'heading'     => 'Montana Weather Destroys Roofs',
+                    'heading'     => 'Generic Templates Hold You Back',
                     'description' => '',
                     'show_button' => '',
                 ],
                 [
                     'eyebrow'     => 'The Solution',
-                    'heading'     => 'Proactive Roof Care by Red Shield',
+                    'heading'     => 'A Brand Designed Around Your Goals',
                     'description' => '',
                     'show_button' => '',
                 ],

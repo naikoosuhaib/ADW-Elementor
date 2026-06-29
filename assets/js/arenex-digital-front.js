@@ -909,8 +909,20 @@
             var lastY = window.pageYOffset || 0;
             var ticking = false;
 
-            function syncSpacer() {
-                spacer.style.height = fixed ? nav.offsetHeight + 'px' : '0px';
+            // Pin the header to the same width/left as its container (the spacer
+            // sits in the original flow slot). Boxed container → header stays boxed;
+            // full-width → header stays full-width.
+            function syncGeometry() {
+                if (!fixed) {
+                    spacer.style.height = '0px';
+                    nav.style.left = '';
+                    nav.style.width = '';
+                    return;
+                }
+                var rect = spacer.getBoundingClientRect();   // width/left unaffected by height
+                nav.style.left = rect.left + 'px';
+                nav.style.width = rect.width + 'px';
+                spacer.style.height = nav.offsetHeight + 'px';
             }
 
             function update() {
@@ -921,7 +933,7 @@
                     if (!fixed) {
                         fixed = true;
                         nav.classList.add('is-fixed', 'is-stuck');
-                        syncSpacer();
+                        syncGeometry();
                     }
                     if (mode === 'smart') {
                         if (goingDown && y > offset + 10) {
@@ -933,7 +945,7 @@
                 } else if (fixed) {
                     fixed = false;
                     nav.classList.remove('is-fixed', 'is-stuck', 'is-hidden');
-                    syncSpacer();
+                    syncGeometry();
                 }
 
                 lastY = y < 0 ? 0 : y;
@@ -943,7 +955,7 @@
             window.addEventListener('scroll', function () {
                 if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
             }, { passive: true });
-            window.addEventListener('resize', function () { if (fixed) syncSpacer(); });
+            window.addEventListener('resize', function () { if (fixed) syncGeometry(); });
 
             update();
         });

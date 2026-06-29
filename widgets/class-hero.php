@@ -109,12 +109,12 @@ class CMP_Hero extends \Elementor\Widget_Base {
         $this->add_control( 'badge_text', [
             'label'     => __( 'Header Text', 'arenex-digital-widgets' ),
             'type'      => \Elementor\Controls_Manager::TEXT,
-            'default'   => 'Serving Hampton Roads Since Day One',
+            'default'   => 'Helping Brands Grow Since Day One',
             'condition' => [ 'header_type!' => 'none' ],
         ] );
-        $this->add_control( 'heading', [ 'label' => __( 'Heading', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => "Reliable Network, Security &\n<span class=\"cmp-gradient-text\">Audio Visual Solutions</span>", 'description' => __( 'Use &lt;span class="cmp-gradient-text"&gt; for gradient, &lt;em&gt;, &lt;strong&gt;, &lt;br&gt;.', 'arenex-digital-widgets' ) ] );
+        $this->add_control( 'heading', [ 'label' => __( 'Heading', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => "Build a Brand That\n<span class=\"cmp-gradient-text\">People Remember</span>", 'description' => __( 'Use &lt;span class="cmp-gradient-text"&gt; for gradient, &lt;em&gt;, &lt;strong&gt;, &lt;br&gt;.', 'arenex-digital-widgets' ) ] );
         $this->add_control( 'show_subheading', [ 'label' => __( 'Show Subheading', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::SWITCHER, 'default' => 'yes' ] );
-        $this->add_control( 'subheading', [ 'label' => __( 'Subheading', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'We deliver enterprise-grade networking, structured cabling, security camera systems, and commercial AV installations across your region.', 'condition' => [ 'show_subheading' => 'yes' ] ] );
+        $this->add_control( 'subheading', [ 'label' => __( 'Subheading', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::TEXTAREA, 'default' => 'We help your business stand out with clean design, smart strategy, and thoughtful development from first idea to final launch.', 'condition' => [ 'show_subheading' => 'yes' ] ] );
         $this->end_controls_section();
 
         /* ── CONTENT: Buttons ── */
@@ -171,6 +171,18 @@ class CMP_Hero extends \Elementor\Widget_Base {
         $this->start_controls_section( 'section_scroll', [ 'label' => __( 'Scroll Indicator', 'arenex-digital-widgets' ) ] );
         $this->add_control( 'show_scroll', [ 'label' => __( 'Show Scroll Indicator', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::SWITCHER, 'default' => 'yes' ] );
         $this->add_control( 'scroll_text', [ 'label' => __( 'Scroll Text', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'Scroll to explore', 'condition' => [ 'show_scroll' => 'yes' ] ] );
+        $this->add_control( 'scroll_position', [
+            'label'       => __( 'Position', 'arenex-digital-widgets' ),
+            'type'        => \Elementor\Controls_Manager::SELECT,
+            'default'     => 'right',
+            'options'     => [
+                'left'   => __( 'Left', 'arenex-digital-widgets' ),
+                'center' => __( 'Center', 'arenex-digital-widgets' ),
+                'right'  => __( 'Right', 'arenex-digital-widgets' ),
+            ],
+            'description' => __( 'Where the scroll indicator sits at the bottom of the hero. Use Left or Right to keep it clear of centered content.', 'arenex-digital-widgets' ),
+            'condition'   => [ 'show_scroll' => 'yes' ],
+        ] );
         $this->add_control( 'scroll_text_color', [ 'label' => __( 'Text Color', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::COLOR, 'selectors' => [ '{{WRAPPER}} .cmp-dark-hero-scroll' => 'color: {{VALUE}};' ] ] );
         $this->add_control( 'scroll_line_color', [ 'label' => __( 'Line Color', 'arenex-digital-widgets' ), 'type' => \Elementor\Controls_Manager::COLOR, 'selectors' => [ '{{WRAPPER}} .cmp-dark-hero-scroll .scroll-line' => 'background: {{VALUE}};', '{{WRAPPER}} .cmp-dark-hero-scroll-line' => 'background: {{VALUE}};' ] ] );
         $this->add_group_control( \Elementor\Group_Control_Typography::get_type(), [ 'name' => 'scroll_typography', 'selector' => '{{WRAPPER}} .cmp-dark-hero-scroll' ] );
@@ -474,8 +486,9 @@ class CMP_Hero extends \Elementor\Widget_Base {
                     </div>
                     <?php endif; ?>
                 </div>
-                <?php if ( ( $s['show_scroll'] ?? '' ) === 'yes' && ! empty( $s['scroll_text'] ) ) : ?>
-                <div class="cmp-dark-hero-scroll">
+                <?php if ( ( $s['show_scroll'] ?? '' ) === 'yes' && ! empty( $s['scroll_text'] ) ) :
+                    $scroll_pos = in_array( ( $s['scroll_position'] ?? 'right' ), [ 'left', 'center', 'right' ], true ) ? $s['scroll_position'] : 'right'; ?>
+                <div class="cmp-dark-hero-scroll cmp-scroll--<?php echo esc_attr( $scroll_pos ); ?>">
                     <span><?php echo esc_html( $s['scroll_text'] ); ?></span>
                     <div class="cmp-scroll-line"></div>
                 </div>
@@ -575,8 +588,9 @@ class CMP_Hero extends \Elementor\Widget_Base {
             </div>
             <?php endif; ?>
 
-            <?php if ( $s['show_scroll'] === 'yes' && ! empty( $s['scroll_text'] ) ) : ?>
-            <div class="cmp-dark-hero-scroll">
+            <?php if ( $s['show_scroll'] === 'yes' && ! empty( $s['scroll_text'] ) ) :
+                $scroll_pos = in_array( ( $s['scroll_position'] ?? 'right' ), [ 'left', 'center', 'right' ], true ) ? $s['scroll_position'] : 'right'; ?>
+            <div class="cmp-dark-hero-scroll cmp-scroll--<?php echo esc_attr( $scroll_pos ); ?>">
                 <span><?php echo esc_html( $s['scroll_text'] ); ?></span>
                 <div class="cmp-scroll-line"></div>
             </div>

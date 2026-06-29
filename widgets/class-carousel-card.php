@@ -32,7 +32,7 @@ class CMP_Carousel_Card extends \Elementor\Widget_Base {
                     'name'    => 'caption1',
                     'label'   => 'Caption Left',
                     'type'    => \Elementor\Controls_Manager::TEXT,
-                    'default' => 'Sportfishing',
+                    'default' => 'Featured',
                 ],
                 [
                     'name'    => 'caption1_icon',
@@ -44,7 +44,7 @@ class CMP_Carousel_Card extends \Elementor\Widget_Base {
                     'name'    => 'caption2',
                     'label'   => 'Caption Right',
                     'type'    => \Elementor\Controls_Manager::TEXT,
-                    'default' => 'Up to 4 passengers',
+                    'default' => 'Web Design',
                 ],
                 [
                     'name'    => 'caption2_icon',
@@ -54,9 +54,9 @@ class CMP_Carousel_Card extends \Elementor\Widget_Base {
                 ],
             ],
             'default' => [
-                [ 'caption1' => 'Sportfishing on "Girl Friend"', 'caption2' => 'Up to 4 passengers', 'caption1_icon' => [ 'value' => 'fas fa-anchor', 'library' => 'fa-solid' ], 'caption2_icon' => [ 'value' => 'fas fa-users', 'library' => 'fa-solid' ] ],
-                [ 'caption1' => 'Sportfishing on "Hard Hat"', 'caption2' => 'Up to 6 passengers', 'caption1_icon' => [ 'value' => 'fas fa-anchor', 'library' => 'fa-solid' ], 'caption2_icon' => [ 'value' => 'fas fa-users', 'library' => 'fa-solid' ] ],
-                [ 'caption1' => 'Massachusetts & Rhode Island', 'caption2' => 'Inshore · Offshore · Canal Cruises', 'caption1_icon' => [ 'value' => 'fas fa-anchor', 'library' => 'fa-solid' ], 'caption2_icon' => [ 'value' => 'fas fa-users', 'library' => 'fa-solid' ] ],
+                [ 'caption1' => 'Project One', 'caption2' => 'Web Design', 'caption1_icon' => [ 'value' => 'fas fa-anchor', 'library' => 'fa-solid' ], 'caption2_icon' => [ 'value' => 'fas fa-users', 'library' => 'fa-solid' ] ],
+                [ 'caption1' => 'Project Two', 'caption2' => 'Brand Strategy', 'caption1_icon' => [ 'value' => 'fas fa-anchor', 'library' => 'fa-solid' ], 'caption2_icon' => [ 'value' => 'fas fa-users', 'library' => 'fa-solid' ] ],
+                [ 'caption1' => 'Design • Build • Launch', 'caption2' => 'Web · Brand · Marketing', 'caption1_icon' => [ 'value' => 'fas fa-anchor', 'library' => 'fa-solid' ], 'caption2_icon' => [ 'value' => 'fas fa-users', 'library' => 'fa-solid' ] ],
             ],
             'title_field' => '{{{ caption1 }}}',
         ]);
@@ -119,25 +119,25 @@ class CMP_Carousel_Card extends \Elementor\Widget_Base {
                     'name'    => 'name',
                     'label'   => 'Boat Name',
                     'type'    => \Elementor\Controls_Manager::TEXT,
-                    'default' => 'Boat Name',
+                    'default' => 'Project One',
                 ],
                 [
                     'name'    => 'specs',
                     'label'   => 'Specs Line',
                     'type'    => \Elementor\Controls_Manager::TEXT,
-                    'default' => '27 ft · Twin Outboards · Full Head',
+                    'default' => 'Web Design · Brand · Development',
                 ],
                 [
                     'name'    => 'trips',
                     'label'   => 'Trip Types',
                     'type'    => \Elementor\Controls_Manager::TEXT,
-                    'default' => 'Full day inshore · Half day inshore · Canal cruise',
+                    'default' => 'Discovery · Strategy · Launch',
                 ],
                 [
                     'name'    => 'capacity',
                     'label'   => 'Capacity',
                     'type'    => \Elementor\Controls_Manager::TEXT,
-                    'default' => 'Up to 4 passengers',
+                    'default' => 'Trusted by growing brands',
                 ],
                 [
                     'name'    => 'btn_text',
@@ -183,7 +183,7 @@ class CMP_Carousel_Card extends \Elementor\Widget_Base {
                     'type'        => \Elementor\Controls_Manager::TEXTAREA,
                     'default'     => '',
                     'rows'        => 5,
-                    'placeholder' => "Length | 27ft\nBeam | 8'6\"\nEngine | Twin 150HP",
+                    'placeholder' => "Service | Web Design\nTimeline | 4 Weeks\nDeliverable | Live Site",
                 ],
                 [
                     'name' => 'trip_heading',
@@ -197,12 +197,12 @@ class CMP_Carousel_Card extends \Elementor\Widget_Base {
                     'type'        => \Elementor\Controls_Manager::TEXTAREA,
                     'default'     => '',
                     'rows'        => 4,
-                    'placeholder' => "Inshore Fishing\nOffshore Fishing\nCanal Cruise",
+                    'placeholder' => "Service One\nService Two\nService Three",
                 ],
             ],
             'default' => [
-                [ 'name' => 'Girl Friend', 'specs' => '27 ft Grady White Walk-Around Cuddy · Twin Outboards · Full Head', 'trips' => 'Full day inshore · Half day inshore · Canal cruise', 'capacity' => 'Up to 4 passengers', 'btn_text' => 'Book Girl Friend' ],
-                [ 'name' => 'Hard Hat', 'specs' => '32 ft Rampage Express · Twin Diesel · 22 knot cruise · Full Head', 'trips' => 'Full day offshore · Full day inshore · Half day inshore · Canal cruise', 'capacity' => 'Up to 6 passengers', 'btn_text' => 'Book Hard Hat' ],
+                [ 'name' => 'Project One', 'specs' => 'Web Design · Brand Strategy · Development', 'trips' => 'Discovery · Strategy · Launch', 'capacity' => 'Trusted by growing brands', 'btn_text' => 'View Project' ],
+                [ 'name' => 'Project Two', 'specs' => 'Brand Identity · Marketing · Consulting', 'trips' => 'Discovery · Design · Delivery', 'capacity' => 'Built for results', 'btn_text' => 'View Project' ],
             ],
             'title_field' => '{{{ name }}}',
         ]);

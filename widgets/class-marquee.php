@@ -30,7 +30,7 @@ class CMP_Marquee extends \Elementor\Widget_Base {
                 [ 'text' => 'Licensed & Insured' ],
                 [ 'text' => 'Free Inspections' ],
                 [ 'text' => '5-Star Rated' ],
-                [ 'text' => 'Helena, Montana' ],
+                [ 'text' => 'Design • Build • Launch' ],
                 [ 'text' => 'Locally Owned' ],
                 [ 'text' => '24/7 Emergency Service' ],
             ],

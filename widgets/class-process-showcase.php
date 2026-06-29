@@ -49,7 +49,7 @@ class CMP_Process_Showcase extends \Elementor\Widget_Base {
         $repeater->add_control( 'description', [
             'label'   => __( 'Description', 'arenex-digital-widgets' ),
             'type'    => \Elementor\Controls_Manager::TEXTAREA,
-            'default' => __( 'We discuss your property, project goals, timeline, and excavation needs.', 'arenex-digital-widgets' ),
+            'default' => __( 'We discuss your goals, timeline, and project needs to set a clear direction.', 'arenex-digital-widgets' ),
             'rows'    => 4,
         ] );
         $repeater->add_control( 'icon', [
@@ -71,7 +71,7 @@ class CMP_Process_Showcase extends \Elementor\Widget_Base {
         $repeater->add_control( 'image_label', [
             'label'   => __( 'Image Corner Label', 'arenex-digital-widgets' ),
             'type'    => \Elementor\Controls_Manager::TEXT,
-            'default' => __( 'Ready Site', 'arenex-digital-widgets' ),
+            'default' => __( 'Launched', 'arenex-digital-widgets' ),
         ] );
 
         $this->add_control( 'steps', [
@@ -81,31 +81,31 @@ class CMP_Process_Showcase extends \Elementor\Widget_Base {
             'default'     => [
                 [
                     'step_label'  => 'Step 1',
-                    'title'       => 'Consultation',
-                    'description' => 'We discuss your property, project goals, timeline, and excavation needs.',
+                    'title'       => 'Discovery',
+                    'description' => 'We discuss your goals, timeline, and project needs to set a clear direction.',
                     'icon'        => [ 'value' => 'far fa-clipboard', 'library' => 'fa-regular' ],
                     'image_label' => 'Project Plan',
                 ],
                 [
                     'step_label'  => 'Step 2',
-                    'title'       => 'Site Preparation',
-                    'description' => 'We assess the land, plan the work, and prepare the area for safe, efficient excavation.',
+                    'title'       => 'Strategy',
+                    'description' => 'We map out the work and prepare a clear plan for an efficient build.',
                     'icon'        => [ 'value' => 'fas fa-drafting-compass', 'library' => 'fa-solid' ],
-                    'image_label' => 'Prepared Site',
+                    'image_label' => 'Planned',
                 ],
                 [
                     'step_label'  => 'Step 3',
-                    'title'       => 'Excavation & Installation',
-                    'description' => 'Our team completes the excavation, grading, septic, drainage, or site work with professional care.',
+                    'title'       => 'Design & Build',
+                    'description' => 'Our team brings the plan to life with clean design and careful, professional work.',
                     'icon'        => [ 'value' => 'fas fa-truck-loading', 'library' => 'fa-solid' ],
                     'image_label' => 'In Progress',
                 ],
                 [
                     'step_label'  => 'Step 4',
-                    'title'       => 'Final Results',
+                    'title'       => 'Launch',
                     'description' => 'We finish with clean, dependable results ready for the next stage of your project.',
                     'icon'        => [ 'value' => 'far fa-check-square', 'library' => 'fa-regular' ],
-                    'image_label' => 'Ready Site',
+                    'image_label' => 'Launched',
                 ],
             ],
             'title_field' => '{{{ step_label }}} — {{{ title }}}',

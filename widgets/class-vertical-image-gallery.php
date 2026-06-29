@@ -36,12 +36,12 @@ class CMP_Vertical_Image_Gallery extends \Elementor\Widget_Base {
             'type'        => \Elementor\Controls_Manager::REPEATER,
             'fields'      => $repeater->get_controls(),
             'default'     => [
-                [ 'alt_text' => __( 'Excavation project image', 'arenex-digital-widgets' ) ],
-                [ 'alt_text' => __( 'Site preparation project image', 'arenex-digital-widgets' ) ],
-                [ 'alt_text' => __( 'Land clearing project image', 'arenex-digital-widgets' ) ],
-                [ 'alt_text' => __( 'Septic installation project image', 'arenex-digital-widgets' ) ],
-                [ 'alt_text' => __( 'Grading project image', 'arenex-digital-widgets' ) ],
-                [ 'alt_text' => __( 'Finished excavation project image', 'arenex-digital-widgets' ) ],
+                [ 'alt_text' => __( 'Project gallery image 1', 'arenex-digital-widgets' ) ],
+                [ 'alt_text' => __( 'Project gallery image 2', 'arenex-digital-widgets' ) ],
+                [ 'alt_text' => __( 'Project gallery image 3', 'arenex-digital-widgets' ) ],
+                [ 'alt_text' => __( 'Project gallery image 4', 'arenex-digital-widgets' ) ],
+                [ 'alt_text' => __( 'Project gallery image 5', 'arenex-digital-widgets' ) ],
+                [ 'alt_text' => __( 'Project gallery image 6', 'arenex-digital-widgets' ) ],
             ],
             'title_field' => '{{{ alt_text }}}',
         ] );

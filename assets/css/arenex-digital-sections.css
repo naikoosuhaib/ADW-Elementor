@@ -883,14 +883,21 @@ html, body { overflow-x: clip !important; max-width: 100%; }
 /* Scroll indicator inside Style 2 — center it at the bottom of the section, override Style 1's right-edge absolute */
 .cmp-dark-hero--style-2 .cmp-dark-hero-scroll {
     position: absolute;
-    left: 50%;
     bottom: 32px;
-    right: auto;
     top: auto;
-    transform: translateX(-50%);
     flex-direction: column;
     align-items: center;
     z-index: 3;
+}
+/* Scroll-indicator placement (default = right, set per widget control).
+   Applies to both hero styles; Style-2 pins to the bottom edge. */
+.cmp-dark-hero-scroll.cmp-scroll--right  { left: auto; right: 24px;  transform: none; }
+.cmp-dark-hero-scroll.cmp-scroll--left   { right: auto; left: 24px;  transform: none; }
+.cmp-dark-hero-scroll.cmp-scroll--center { left: 50%; right: auto; transform: translateX(-50%); }
+/* Style-1 keeps the vertical centering for left/right (it sits mid-height, not bottom) */
+.cmp-dark-hero:not(.cmp-dark-hero--style-2) .cmp-dark-hero-scroll.cmp-scroll--right,
+.cmp-dark-hero:not(.cmp-dark-hero--style-2) .cmp-dark-hero-scroll.cmp-scroll--left {
+    top: 50%; bottom: auto; transform: translateY(-50%);
 }
 
 /* Style 2 responsive */
@@ -7770,10 +7777,9 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
 .cmp-sh--sticky.is-fixed {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
     z-index: 9999;
+    /* left + width are set inline by JS to match the container
+       (boxed stays boxed, full-width stays full-width). */
 }
 .cmp-sh--sticky-shadow.is-stuck {
     box-shadow: 0 6px 24px rgba(0,0,0,.18);
