@@ -7791,3 +7791,19 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
 
 /* Never fix the header inside the Elementor editor (it would cover the UI) */
 .elementor-editor-active .cmp-sh--sticky.is-fixed { position: static; }
+
+/* ════════════════════════════════════════════════════════════════
+   FIX: Do NOT auto-inject the ADW arrow icon into Elementor's NATIVE
+   Button widget. The site-wide "Button Icon" setting was adding an
+   arrow (+8px margin) to any native Elementor button with no icon of
+   its own — showing up as an unwanted gap and "taking over" the button.
+   ADW's own .cmp-* buttons (hero, CTA, footer, etc.) are unaffected and
+   still honor the site-wide icon setting.
+   ════════════════════════════════════════════════════════════════ */
+body[class*="adw-btn-icon-"] .elementor-button .elementor-button-content-wrapper::after,
+body[class*="adw-btn-icon-"] a.elementor-button-link .elementor-button-content-wrapper::after {
+    content: none !important;
+    display: none !important;
+    margin: 0 !important;
+    width: 0 !important;
+}
