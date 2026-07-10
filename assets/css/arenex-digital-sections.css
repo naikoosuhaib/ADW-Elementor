@@ -7793,17 +7793,19 @@ body:not(.elementor-editor-active) .cmp-section-pattern__label {
 .elementor-editor-active .cmp-sh--sticky.is-fixed { position: static; }
 
 /* ════════════════════════════════════════════════════════════════
-   FIX: Do NOT auto-inject the ADW arrow icon into Elementor's NATIVE
-   Button widget. The site-wide "Button Icon" setting was adding an
-   arrow (+8px margin) to any native Elementor button with no icon of
-   its own — showing up as an unwanted gap and "taking over" the button.
-   ADW's own .cmp-* buttons (hero, CTA, footer, etc.) are unaffected and
-   still honor the site-wide icon setting.
+   FIX: kill the ~6px gap that appears BELOW ADW-styled buttons.
+   ADW's base rule sets `overflow: hidden` on buttons (needed for the
+   shine-sweep effect). On an inline-block element that moves the
+   baseline to the bottom edge, so the surrounding line-box leaves
+   descender space beneath the button. Forcing vertical-align removes
+   it. Verified live: widget height 45px → 39px (matches the button).
+   Applies to ADW's own buttons AND native Elementor buttons.
+   The site-wide icon injection is intentionally LEFT INTACT:
+   iconless buttons still get the ADW default arrow; buttons that
+   already have their own icon are handled by the existing :has() guard.
    ════════════════════════════════════════════════════════════════ */
-body[class*="adw-btn-icon-"] .elementor-button .elementor-button-content-wrapper::after,
-body[class*="adw-btn-icon-"] a.elementor-button-link .elementor-button-content-wrapper::after {
-    content: none !important;
-    display: none !important;
-    margin: 0 !important;
-    width: 0 !important;
+.cmp-btn,
+.elementor-button,
+.elementor-widget-button .elementor-button-link {
+    vertical-align: middle;
 }
